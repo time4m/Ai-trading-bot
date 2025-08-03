@@ -2,28 +2,26 @@ name: Run Trading Bot Daily
 
 on:
   schedule:
-    - cron: '30 3 * * *' # Runs every day at 9:00 AM IST (3:30 AM UTC)
-  workflow_dispatch:
+    - cron: '0 2 * * *'  # Run daily at 7:30 AM IST (2 AM UTC)
+  workflow_dispatch:     # Allow manual trigger
 
 jobs:
-  run-notebook:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install jupyter nbconvert
+    - name: Install dependencies
+      run: |
+        pip install yfinance ta pandas scikit-learn python-telegram-bot jupyter
 
-      - name: Run the notebook
-        run: |
-          jupyter nbconvert --to notebook --execute Trading_bot.ipynb --output output.ipynb
-          
+    - name: Execute Notebook
+      run: |
+        jupyter nbconvert --to notebook --execute Trading_bot.ipynb --output executed.ipynb
