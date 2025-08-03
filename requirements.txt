@@ -1,0 +1,5 @@
+yfinance
+pandas
+ta
+scikit-learn
+python-telegram-bot==20.3
