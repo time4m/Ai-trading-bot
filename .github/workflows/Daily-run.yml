@@ -1,29 +1,28 @@
-name: Daily Trading Bot
+name: Daily Trading Signal
 
 on:
   schedule:
-    - cron: "0 3 * * *"  # Runs every day at 8:30 AM IST
-  workflow_dispatch:
+    - cron: "0 2 * * *"  # Runs daily at 2 AM UTC
+  workflow_dispatch:     # Allows manual trigger
 
 jobs:
-  run-trading-bot:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - name: Run notebook
-      run: |
-        pip install jupyter nbconvert
-        jupyter nbconvert --to notebook --execute Trading_bot.ipynb
-        
+      - name: Run notebook
+        run: |
+          pip install notebook
+          jupyter nbconvert --to notebook --execute Trading_bot.ipynb --output executed_notebook.ipynb
