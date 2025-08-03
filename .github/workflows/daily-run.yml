@@ -25,3 +25,32 @@ jobs:
         run: |
           python your_bot_file.py  # 🔁 Replace with your actual file name
           
+name: Run Trading Bot Daily
+
+on:
+  schedule:
+    - cron: '30 3 * * *' # Runs every day at 9:00 AM IST (3:30 AM UTC)
+  workflow_dispatch:
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install jupyter nbconvert
+
+      - name: Run the notebook
+        run: |
+          jupyter nbconvert --to notebook --execute Trading_bot.ipynb --output output.ipynb
+          
