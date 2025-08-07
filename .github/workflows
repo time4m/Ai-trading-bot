@@ -1,1 +1,25 @@
-.github/workflows/main.yml
+name: Daily Trading Bot
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Runs at 8:30 AM IST every day (3 AM UTC)
+  workflow_dispatch:  # Allows manual run
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run the bot
+      run: python trading_bot.py
